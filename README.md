@@ -73,7 +73,12 @@ My portfolio, where you can see my work, services and how I approach projects. I
   <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" />
   <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white" alt="Figma" />
   <img src="https://img.shields.io/badge/Claude-000000?style=flat-square&logo=anthropic&logoColor=white" alt="Claude" />
-  <img src="https://img.shields.io/badge/Codex-111827?style=flat-square&logo=openai&logoColor=white" alt="Codex" />
+  <svg width="96" height="28" viewBox="0 0 96 28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Codex logo and name">
+    <rect width="96" height="28" rx="6" fill="#111827"/>
+    <circle cx="16" cy="14" r="6" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M20 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    <text x="30" y="18" fill="#FFFFFF" font-family="Verdana, Arial, sans-serif" font-size="10" font-weight="700">Codex</text>
+  </svg>
   <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" />
   <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" />
   <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Git" />
