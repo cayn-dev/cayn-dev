@@ -170,3 +170,14 @@ html[data-experience="performance"] .js-ready [data-reveal],
 html[data-experience="performance"] .js-ready [data-reveal] h2,
 html[data-experience="performance"] .js-ready [data-reveal] h3{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important;transition:none!important}
 
+
+/* Keep the fixed brand control from covering project cards on small screens. */
+@media(max-width:560px){
+  .scroll-logo{display:none}
+  .scroll-header{justify-content:flex-end}
+  .section-shell,.case-study,.case-copy,.cashow-dashboard,.agri-shot,.feature-grid,.feature-grid article,.outcomes-grid,.outcomes-grid .glass-card,.guests-card{min-width:0;max-width:100%}
+  .case-study{width:100%;grid-template-columns:minmax(0,1fr)}
+  .feature-grid{grid-template-columns:minmax(0,1fr)}
+  .feature-grid article{overflow-wrap:anywhere}
+  .outcomes-grid{grid-template-columns:minmax(0,1fr)}
+}
