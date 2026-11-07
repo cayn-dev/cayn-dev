@@ -27,10 +27,14 @@ Siti web aziendali, landing page, design UI/UX, restyling, applicazioni web e st
 index.html          pagina principale
 styles.css          stile e layout
 scroll.css          animazioni, modalità leggere e dettagli Liquid Glass
+cinematic.css       tipografia, vetro e sfondo monocromatico
+cursor-field.js     shader GLSL e interazione con il mouse
 scroll.js           navigazione, scroll, tema e motion
 assets/             loghi, immagini e poster
 fonts/              font locali e relative licenze
 ```
+
+Per regolare raggio, durata e intensità della scia, vedi [Cursor field](CURSOR-FIELD.md).
 
 ## Avvio locale
 

@@ -2,8 +2,6 @@
   'use strict';
 
   const root = document.documentElement;
-  const video = document.querySelector('.bg-video');
-  const source = video?.querySelector('source');
   const themeToggle = document.querySelector('#scroll-theme-toggle');
   const motionToggle = document.querySelector('#scroll-motion-toggle');
   const themeMeta = document.querySelector('meta[name="theme-color"]');
@@ -22,13 +20,11 @@
   let detectedProfile = 'full';
   let recommendedMode = 'performance';
   let userMotionPreference = '';
+  const systemMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const isItalian = root.lang === 'it';
 
   try { userMotionPreference = localStorage.getItem('cayn-scroll-motion-v2') || ''; } catch { /* Storage can be blocked. */ }
-  if (root.dataset.motion !== 'full' && root.dataset.motion !== 'reduce') {
-    root.dataset.motion = userMotionPreference === 'full' || userMotionPreference === 'reduce'
-      ? userMotionPreference
-      : 'full';
-  }
+  root.dataset.motion = systemMotion.matches || userMotionPreference === 'reduce' ? 'reduce' : 'full';
 
   const setTheme = (theme, persist = false) => {
     const dark = theme !== 'light';
@@ -43,17 +39,15 @@
     }
   };
 
-  const playVideo = async () => {
-    if (!video || root.dataset.motion === 'reduce' || document.hidden || root.dataset.experience === 'performance' || root.dataset.experience === 'pending') return;
-    try { await video.play(); } catch { /* Motion controls still work if autoplay is unavailable. */ }
-  };
-
   const updateMotionControl = () => {
     const reduced = root.dataset.motion === 'reduce';
     if (motionToggle) {
-      motionToggle.textContent = reduced ? 'Enable motion' : 'Pause motion';
+      motionToggle.disabled = systemMotion.matches;
+      motionToggle.textContent = systemMotion.matches
+        ? (isItalian ? 'Movimento ridotto dal sistema' : 'Motion reduced by system')
+        : reduced ? (isItalian ? 'Attiva le animazioni' : 'Enable motion') : (isItalian ? 'Metti in pausa le animazioni' : 'Pause motion');
       motionToggle.setAttribute('aria-pressed', String(!reduced));
-      motionToggle.setAttribute('aria-label', reduced ? 'Enable motion and animations' : 'Pause motion and animations');
+      motionToggle.setAttribute('aria-label', motionToggle.textContent);
     }
   };
 
@@ -68,25 +62,15 @@
       try { localStorage.setItem('cayn-scroll-motion-v2', mode); } catch { /* Storage is optional. */ }
     }
     updateMotionControl();
-    if (mode === 'reduce') {
-      video?.pause();
-      revealEverything();
-    } else {
-      playVideo();
-    }
+    if (mode === 'reduce') revealEverything();
   };
 
   setTheme(root.dataset.theme, false);
   updateMotionControl();
-  if (root.dataset.motion === 'reduce') video?.pause();
+  systemMotion.addEventListener('change', () => setMotion(systemMotion.matches || userMotionPreference === 'reduce' ? 'reduce' : 'full'));
 
   themeToggle?.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true));
   motionToggle?.addEventListener('click', () => setMotion(root.dataset.motion === 'reduce' ? 'full' : 'reduce', true));
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) video?.pause();
-    else if (root.dataset.motion === 'full') playVideo();
-  });
-  [video, source].filter(Boolean).forEach(item => item.addEventListener('error', () => root.dataset.videoState = 'unavailable'));
 
   const closeMenu = () => {
     if (!menu || !menuToggle) return;
@@ -125,13 +109,7 @@
     if (persist) {
       try { localStorage.setItem('cayn-experience-mode', mode); } catch { /* The page still works without storage. */ }
     }
-    if (mode === 'full') {
-      if (root.dataset.motion === 'full') playVideo();
-    } else if (mode === 'mobile') {
-      if (root.dataset.motion === 'full') playVideo(); else video?.pause();
-    } else {
-      video?.pause();
-    }
+    if (mode === 'performance') revealEverything();
   };
 
   const openExperienceDialog = reason => {
@@ -147,13 +125,13 @@
     } else if (reason === 'performance') {
       experienceKicker.textContent = 'A smoother fit for this computer';
       experienceTitle.textContent = 'Keep the page feeling fast.';
-      experienceDescription.textContent = 'This device reports limited memory or processing capacity. Performance mode pauses the background video and uses lighter scroll animations while keeping all portfolio content.';
+      experienceDescription.textContent = 'This device reports limited memory or processing capacity. Performance mode turns off scroll entrance animations and cursor effects while keeping all portfolio content.';
       recommendedButton.textContent = 'Enable performance mode';
       fullExperienceButton.textContent = 'Continue with full motion';
     } else {
       experienceKicker.textContent = 'Portfolio preferences';
       experienceTitle.textContent = 'Choose your experience.';
-      experienceDescription.textContent = 'The lighter experience pauses the background video and simplifies scroll animations to save graphics and memory while keeping all portfolio content.';
+      experienceDescription.textContent = 'The lighter experience turns off scroll entrance animations and cursor effects while keeping all portfolio content.';
       recommendedButton.textContent = 'Enable performance mode';
       fullExperienceButton.textContent = 'Use the full experience';
     }
