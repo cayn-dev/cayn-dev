@@ -14,7 +14,7 @@
 
 ## About me
 
-### Wsp i'm Cayn
+### Hi i'm Cayn
 
 I’m an independent web designer and developer based in Italy. I work with small businesses, founders and professionals to turn ideas into clear, useful websites and digital products.
 
